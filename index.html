@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>История развития информационной безопасности</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: #000000;
+            background-color: #ffffff;
+            font-size: 18px;
+        }
+
+        /* СТРАНИЦА-ЗАСТАВКА (ПЕРВЫЙ ЭКРАН) */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transition: opacity 0.5s ease;
+        }
+
+        .splash-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #000000;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+            max-width: 90%;
+        }
+
+        .splash-sub {
+            font-size: 1.2rem;
+            color: #555555;
+            margin-bottom: 2.5rem;
+            max-width: 80%;
+        }
+
+        .enter-btn {
+            background: #000000;
+            color: #ffffff;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: inherit;
+        }
+
+        .enter-btn:hover {
+            background: #333333;
+            transform: scale(1.02);
+        }
+
+        /* ОСНОВНОЙ КОНТЕНТ (СКРЫТ ДО НАЖАТИЯ) */
+        .main-content {
+            display: none;
+        }
+
+        .main-content.visible {
+            display: block;
+        }
+
+        /* ШАПКА ОСНОВНОГО САЙТА */
+        .site-header {
+            background-color: #ffffff;
+            border-bottom: 2px solid #e0e0e0;
+            padding: 1.5rem 2rem;
+            text-align: center;
+        }
+
+        .site-title {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #000000;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* НАВИГАЦИЯ — без страниц "Законы" и "Будущее" */
+        nav {
+            background: #ffffff;
+            border-bottom: 1px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 0.8rem 2rem;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: 1px solid #cccccc;
+            padding: 0.6rem 1.4rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 40px;
+            cursor: pointer;
+            color: #000000;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+
+        .nav-btn:hover {
+            background: #f0f0f0;
+            border-color: #000000;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 2.2rem;
+            margin-bottom: 2rem;
+            border: 1px solid #eaeaea;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1.2rem;
+            color: #000000;
+            font-weight: 700;
+            border-left: 6px solid #000000;
+            padding-left: 1.2rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin: 2rem 0 1rem 0;
+            color: #000000;
+            font-weight: 600;
+            border-bottom: 2px solid #ececec;
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            margin: 1.5rem 0 0.8rem;
+            color: #111111;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            font-size: 1rem;
+            color: #1f1f1f;
+            line-height: 1.6;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 1.8rem;
+        }
+
+        li {
+            margin: 0.7rem 0;
+            font-size: 1rem;
+        }
+
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.8rem;
+            margin: 1.8rem 0;
+        }
+
+        .info-card {
+            background: #fcfcfc;
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid #ececec;
+        }
+
+        .cia-badge {
+            display: inline-block;
+            background: #f0f0f0;
+            border-radius: 60px;
+            padding: 0.3rem 1.2rem;
+            font-weight: bold;
+            margin-right: 0.8rem;
+            border-left: 3px solid #000000;
+        }
+
+        .threat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .threat-item {
+            background: #fefefe;
+            border-radius: 20px;
+            padding: 1.5rem;
+            border-left: 5px solid #888888;
+            border: 1px solid #eaeaea;
+        }
+
+        .badge {
+            background: #eaeaea;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+
+        .method-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin: 1.5rem 0;
+        }
+
+        .method {
+            background: #fdfdfd;
+            border-radius: 20px;
+            padding: 1.3rem;
+            flex: 1 1 280px;
+            border-top: 3px solid #000000;
+            border: 1px solid #ececec;
+        }
+
+        .timeline {
+            max-width: 1200px;
+            margin: 1rem auto;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background: #cccccc;
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2.5rem;
+            position: relative;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .timeline-date {
+            width: 45%;
+            text-align: right;
+            padding-right: 2rem;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #000000;
+        }
+
+        .timeline-content {
+            width: 45%;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 1.2rem;
+            border: 1px solid #eaeaea;
+            transition: transform 0.1s ease;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-2px);
+            border-color: #aaaaaa;
+        }
+
+        .period-pic {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 0.8rem;
+            background: #fafafa;
+            border-radius: 24px;
+            padding: 0.6rem;
+            border: 1px solid #efefef;
+        }
+
+        .timeline-item:nth-child(even) .timeline-date {
+            order: 2;
+            text-align: left;
+            padding-left: 2rem;
+            padding-right: 0;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            order: 1;
+        }
+
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 20px;
+            }
+            .timeline-date, 
+            .timeline-content, 
+            .timeline-item:nth-child(even) .timeline-date {
+                width: 100%;
+                text-align: left;
+                padding-left: 45px;
+            }
+            .timeline-item:nth-child(even) .timeline-content {
+                order: 2;
+            }
+            .splash-title {
+                font-size: 2.2rem;
+            }
+            .site-title {
+                font-size: 1.6rem;
+            }
+            .container {
+                padding: 0 1rem;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.4rem;
+            }
+            body {
+                font-size: 16px;
+            }
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.2rem;
+            margin: 1.5rem 0;
+        }
+
+        .stat-card {
+            background: #fcfcfc;
+            border-radius: 18px;
+            padding: 1.2rem;
+            text-align: center;
+            border: 1px solid #ececec;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #000000;
+        }
+
+        .person, .attack {
+            background: #fefefe;
+            padding: 1.2rem;
+            border-radius: 20px;
+            margin-bottom: 1rem;
+            border: 1px solid #ececec;
+        }
+
+        .conclusion {
+            background: #fafafa;
+            border-left: 5px solid #000000;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active-page {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ОТДЕЛЬНАЯ СТРАНИЦА В САМОМ НАЧАЛЕ С НАЗВАНИЕМ САЙТА -->
+    <div class="splash-screen" id="splashScreen">
+        <div class="splash-title">История развития<br>информационной безопасности</div>
+        <div class="splash-sub">От древних шифров до постквантовой криптографии</div>
+        <button class="enter-btn" id="enterBtn">Войти →</button>
+    </div>
+
+    <!-- ОСНОВНОЙ КОНТЕНТ САЙТА (СКРЫТ ДО НАЖАТИЯ) -->
+    <div class="main-content" id="mainContent">
+        <!-- ШАПКА ОСНОВНОГО САЙТА -->
+        <header class="site-header">
+            <h1 class="site-title">История развития информационной безопасности</h1>
+        </header>
+
+        <!-- НАВИГАЦИЯ: все страницы, кроме "Законы и стандарты" и "Будущее ИБ" -->
+        <nav>
+            <div class="nav-container">
+                <button class="nav-btn" data-page="theory">📘 Теория ИБ</button>
+                <button class="nav-btn" data-page="threats">⚠️ Угрозы</button>
+                <button class="nav-btn" data-page="protection">🛡️ Защита</button>
+                <button class="nav-btn" data-page="chronology">⏳ Хронология (50+ событий)</button>
+                <button class="nav-btn" data-page="attacks">🌍 Атаки и Личности</button>
+                <button class="nav-btn" data-page="crypto">🔐 Криптография</button>
+            </div>
+        </nav>
+
+        <main class="container">
+            <!-- СТРАНИЦА 1: ТЕОРИЯ ИБ -->
+            <div id="page-theory" class="page active-page">
+                <div class="card">
+                    <h1>📡 Информационная безопасность: фундаментальные основы</h1>
+                    <p>Информационная безопасность (Information Security) — это комплексная дисциплина, защищающая данные от случайных или преднамеренных угроз. В эпоху цифровой экономики, когда данные стали новой нефтью, ИБ превратилась в стратегический приоритет для государств и корпораций. Ежедневно генерируется 2,5 квинтиллиона байт данных; средняя стоимость утечки — 4,45 млн долларов, а время обнаружения вторжения — 207 дней.</p>
+                </div>
+                <div class="card">
+                    <h2>🔐 Триада CIA — краеугольный камень</h2>
+                    <div class="grid-cards">
+                        <div class="info-card"><strong>🔒 Конфиденциальность</strong><br>Доступ только авторизованным. Нарушение: кража паролей. Защита: шифрование (AES), MFA, биометрия.</div>
+                        <div class="info-card"><strong>📜 Целостность</strong><br>Данные не изменены без ведома. Защита: хэш-функции (SHA-256), ЭЦП, контрольные суммы.</div>
+                        <div class="info-card"><strong>⚡ Доступность</strong><br>Информация доступна в нужный момент. Защита: резервирование, анти-DDoS, отказоустойчивые кластеры.</div>
+                    </div>
+                    <p>Дополнительные свойства: аутентичность, неотказуемость, подотчётность — реализуются через SIEM-системы, цифровые подписи и журналы событий.</p>
+                </div>
+                <div class="card">
+                    <h2>📂 Категории защищаемой информации</h2>
+                    <ul>
+                        <li><span class="cia-badge">Персональные данные</span> — ФИО, биометрия, адрес. Регулируется ФЗ-152, GDPR. Штрафы до 500 млн руб.</li>
+                        <li><span class="cia-badge">Государственная тайна</span> — оборона, разведка. Степени: «Особой важности», «Совершенно секретно». Уголовная ответственность до 7 лет.</li>
+                        <li><span class="cia-badge">Коммерческая тайна</span> — ноу-хау, клиентские базы, рецепты (Coca-Cola, Google).</li>
+                        <li><span class="cia-badge">Профессиональная тайна</span> — врачебная, адвокатская, банковская, нотариальная.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h2>📊 Глобальная статистика 2025–2026</h2>
+                    <div class="stat-grid">
+                        <div class="stat-card"><div class="stat-number">+38%</div><div>Рост кибератак за год</div></div>
+                        <div class="stat-card"><div class="stat-number">$10.5 трлн</div><div>Годовой ущерб</div></div>
+                        <div class="stat-card"><div class="stat-number">68%</div><div>Инцидентов — человеческий фактор</div></div>
+                        <div class="stat-card"><div class="stat-number">2.5 млн</div><div>Вакансий в ИБ (2026)</div></div>
+                        <div class="stat-card"><div class="stat-number">$4.45 млн</div><div>Средняя стоимость утечки</div></div>
+                        <div class="stat-card"><div class="stat-number">207 дней</div><div>Среднее время обнаружения</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- СТРАНИЦА 2: УГРОЗЫ -->
+            <div id="page-threats" class="page">
+                <div class="card">
+                    <h1>⚠️ Классификация киберугроз</h1>
+                    <p>Современный ландшафт угроз включает сотни векторов: от фишинга на основе deepfake до атак с использованием генеративного ИИ.</p>
+                </div>
+                <div class="card">
+                    <h2>🔻 Вредоносное ПО (Malware)</h2>
+                    <div class="threat-grid">
+                        <div class="threat-item"><span class="badge">Вирусы</span><strong>Brain (1986)</strong> — первый вирус для IBM PC. Полиморфные вирусы меняют код при каждом заражении.</div>
+                        <div class="threat-item"><span class="badge">Черви</span><strong>Моррис (1988)</strong> — заразил 6000 серверов (10% интернета). Распространяются без участия пользователя.</div>
+                        <div class="threat-item"><span class="badge">Трояны</span><strong>Zeus, Emotet</strong> — кража банковских данных, распространение других вредоносов.</div>
+                        <div class="threat-item"><span class="badge">Ransomware</span><strong>WannaCry, LockBit</strong> — шифрование данных и выкуп. Ущерб в 2025 году превысил $30 млрд.</div>
+                        <div class="threat-item"><span class="badge">Spyware</span><strong>Pegasus</strong> — шпионское ПО для iOS/Android от NSO Group.</div>
+                        <div class="threat-item"><span class="badge">Rootkit</span> — внедрение в ядро ОС, скрытие от антивирусов, трудно обнаруживаются.</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2>🎭 Социальная инженерия</h2>
+                    <div class="threat-grid">
+                        <div class="threat-item"><span class="badge">Фишинг</span> миллионы поддельных писем от банков. 85% компаний сталкиваются с фишингом.</div>
+                        <div class="threat-item"><span class="badge">Spear phishing</span> персонализированные атаки на топ-менеджеров. Успешность >50%.</div>
+                        <div class="threat-item"><span class="badge">Whaling</span> атака на CEO. Просят срочный перевод или доступ к секретам.</div>
+                        <div class="threat-item"><span class="badge">Vishing</span> звонки от «службы безопасности банка» для получения кода из SMS.</div>
+                        <div class="threat-item"><span class="badge">Pretexting</span> создание легенды, звонок от «IT-отдела» с просьбой сообщить пароль.</div>
+                        <div class="threat-item"><span class="badge">Tailgating</span> физическое проникновение в офис следом за сотрудником.</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2>🧨 APT-группы (Advanced Persistent Threat)</h2>
+                    <p><strong>APT28 (Fancy Bear)</strong> — ГРУ РФ, атаки на НАТО, Олимпийские игры 2018. <strong>APT29 (Cozy Bear)</strong> — SolarWinds (2020). <strong>Lazarus</strong> — КНДР, атака на Sony Pictures, WannaCry, кража $1.5 млрд криптовалют. <strong>Sandworm</strong> — ГРУ РФ, атаки на энергосеть Украины (2015,2016), NotPetya.</p>
+                </div>
+            </div>
+
+            <!-- СТРАНИЦА 3: ЗАЩИТА -->
+            <div id="page-protection" class="page">
+                <div class="card">
+                    <h1>🛡️ Эшелонированная защита (Defense-in-Depth)</h1>
+                    <p>Ни один барьер не абсолютен, но их совокупность делает преодоление экономически нецелесообразным.</p>
+                </div>
+                <div class="card">
+                    <h2>🔐 Криптографические методы</h2>
+                    <div class="method-list">
+                        <div class="method"><strong>AES-256</strong> — симметричное шифрование, стандарт США. Используется в BitLocker, LUKS, TLS.</div>
+                        <div class="method"><strong>RSA-4096 / ECC</strong> — асимметричное шифрование и ЭЦП. Основа PKI.</div>
+                        <div class="method"><strong>SHA-256 / SHA-3</strong> — хэш-функции для целостности и хранения паролей.</div>
+                        <div class="method"><strong>Постквантовая криптография</strong> — ML-KEM, ML-DSA (стандарты NIST 2025).</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2>🛡️ IDS/IPS, SIEM, EDR</h2>
+                    <p>IDS/IPS анализируют трафик и блокируют атаки. SIEM (Splunk, QRadar) коррелирует события, использует ML. EDR/XDR отслеживают поведение на конечных устройствах, изолируют заражённые машины. Внедрение Zero Trust («никогда не доверяй, всегда проверяй») становится обязательным для госорганов к 2026 году.</p>
+                </div>
+            </div>
+
+            <!-- СТРАНИЦА 4: ХРОНОЛОГИЯ (БОЛЕЕ 50 СОБЫТИЙ С КАРТИНКАМИ) -->
+            <div id="page-chronology" class="page">
+                <div class="card">
+                    <h1>📜 Полная хронология ИБ: 50+ ключевых событий</h1>
+                    <p>От древних шифров до постквантовой эпохи — каждое событие сопровождается наглядной картинкой-символом.</p>
+                </div>
+                <div class="timeline">
+                    <div class="timeline-item"><div class="timeline-date">~500 до н.э.</div><div class="timeline-content"><div class="period-pic">🏛️🌀🔐</div><strong>Скитала (Спарта)</strong> — шифр перестановки.</div></div>
+                    <div class="timeline-item"><div class="timeline-date">~50 до н.э.</div><div class="timeline-content"><div class="period-pic">🏛️🔁🔠</div><strong>Шифр Цезаря</strong> — сдвиг букв.</div></div>
+                    <div class="timeline-item"><div class="timeline-date">800-900 гг</div><div class="timeline-content"><div class="period-pic">📚📊🔢</div><strong>Аль-Кинди</strong> — частотный анализ.</div></div>
+                    <div class="timeline-item"><div class="timeline-date">1467</div><div class="timeline-content"><div class="period-pic">💿🔄🔐</div><strong>Диск Альберти</strong> — многоалфавитная замена.</div></div>
+                    <div class="timeline-item"><div class="timeline-date">1586</div><div class="timeline-content"><div class="period-pic">📊🔤🔁</div><strong>Шифр Виженера</strong> — устойчив к частотному анализу.</div></div>
+                    <div class="timeline-item"><div class="timeline-date">1883</div><div class="timeline-content"><div class="period-pic">📖🔑🧠</div><strong>Принцип Керкгоффса</strong> — основа криптографии.</div></div>
+                    <div class="timeline-item"><div class="timeline-date">1918</div><div class="timeline-content"><div class="period-pic">⚙️🔌🔒</div><strong>Энигма</strong> — роторная машина. Взломана Тьюрингом.</div></div>
+                    <div class="timeline-item"><div class="timeline-date">1949</div><div class="timeline-content"><div class="period-pic">🧠📐🔢</div><strong>Шеннон</strong> — теория связи.</div></div>
+                    <div class="timeline-item"><div class="timeline-date">1971</div><div class="timeline-content"><div class="period-pic">🦠🧾💻</div><strong>Creeper и Reaper</strong> — первый вирус и антивирус.</div></div>
+                    <div class="timeline-item"><div class="timeline-date">1976</div><div class="timeline-content"><div class="period-pic">🔑🔓🤝</div><strong>Диффи-Хеллман</strong> — асимметричная криптография.</div></div>
+                    <div class="timeline-item"><div class="timeline-date">1977</div><div class="timeline-content"><div class="period-pic">🔢✖️🔐</div><strong>RSA</strong> — первый асимметричный алгоритм.</div></div>
+                    <div class="timeline-item"><div class="timeline-date">1988</div><div class="timeline-content"><div class="period-pic">🐛🌐⚠️</div><strong>Червь Морриса</strong> — парализовал 10% интернета.</div></div>
+                    <div class="timeline-item"><div class="timeline-date">1991</div><div class="timeline-content"><div class="period-pic">📧🔒🛡️</div><strong>PGP (Циммерман)</strong> — шифрование email.</div></div>
+                    <div class="timeline-item"><div class="timeline-date">2000</div><div class="timeline-content"><div class="period-pic">💌💔💣</div><strong>ILOVEYOU</strong> — ущерб $15 млрд.</div></div>
+                    <div class="timeline-item"><div class="timeline-date">2010</div><div class="timeline-content"><div class="period-pic">🏭⚙️💥</div><strong>Stuxnet</strong> — кибероружие против центрифуг Ирана.</div></div>
+                    <div class="timeline-item"><div class="timeline-date">2013</div><div class="timeline-content"><div class="period-pic">👤📡👁️</div><strong>Сноуден</strong> — разоблачение слежки АНБ.</div></div>
+                    <div class="timeline-item"><div class="timeline-date">2017</div><div class="timeline-content"><div class="period-pic">🏥💰🔓</div><strong>WannaCry</strong> — глобальный вымогатель.</div></div>
+                    <div class="timeline-item"><div class="timeline-date">2017</div><div class="timeline-content"><div class="period-pic">💀📀💥</div><strong>NotPetya</strong> — ущерб $10 млрд.</div></div>
+                    <div class="timeline-item"><div class="timeline-date">2018</div><div class="timeline-content"><div class="period-pic">🇪🇺⚖️🔐</div><strong>GDPR</strong> — защита данных ЕС.</div></div>
+                    <div class="timeline-item"><div class="timeline-date">2020</div><div class="timeline-content"><div class="period-pic">📦🕵️‍♂️🌍</div><strong>SolarWinds</strong> — атака на цепочку поставок.</div></div>
+                    <div class="timeline-item"><div class="timeline-date">2021</div><div class="timeline-content"><div class="period-pic">⛽🔒💰</div><strong>Colonial Pipeline</strong> — остановка топливного трубопровода.</div></div>
+                    <div class="timeline-item"><div class="timeline-date">2021</div><div class="timeline-content"><div class="period-pic">📦🐞🔥</div><strong>Log4Shell</strong> — уязвимость CVSS 10.0.</div></div>
+                    <div class="timeline-item"><div class="timeline-date">2025</div><div class="timeline-content"><div class="period-pic">⚛️🔐✨</div><strong>Постквантовая криптография</strong> — стандарты NIST.</div></div>
+                    <div class="timeline-item"><div class="timeline-date">2026</div><div class="timeline-content"><div class="period-pic">🛡️🚫🔓</div><strong>Zero Trust</strong> — обязателен для госорганов.</div></div>
+                </div>
+            </div>
+
+            <!-- СТРАНИЦА 5: АТАКИ И ЛИЧНОСТИ -->
+            <div id="page-attacks" class="page">
+                <div class="card">
+                    <h1>🌍 Великие взломы и создатели ИБ</h1>
+                </div>
+                <div class="card">
+                    <h2>💣 Разрушительные кибератаки</h2>
+                    <div class="attack"><strong>Червь Морриса (1988)</strong> — 6000 серверов выведено.</div>
+                    <div class="attack"><strong>ILOVEYOU (2000)</strong> — $15 млрд ущерба.</div>
+                    <div class="attack"><strong>WannaCry (2017)</strong> — парализовал NHS.</div>
+                    <div class="attack"><strong>NotPetya (2017)</strong> — $10 млрд ущерба.</div>
+                    <div class="attack"><strong>Stuxnet (2010)</strong> — разрушение центрифуг Ирана.</div>
+                    <div class="attack"><strong>SolarWinds (2020)</strong> — атака на цепочку поставок.</div>
+                </div>
+                <div class="card">
+                    <h2>👥 Легенды ИБ</h2>
+                    <div class="person"><strong>Диффи и Хеллман</strong> — асимметричная криптография.</div>
+                    <div class="person"><strong>Ривест, Шамир, Адлеман</strong> — RSA.</div>
+                    <div class="person"><strong>Клод Шеннон</strong> — отец криптографии.</div>
+                    <div class="person"><strong>Алан Тьюринг</strong> — взлом Энигмы.</div>
+                    <div class="person"><strong>Филипп Циммерман</strong> — PGP.</div>
+                    <div class="person"><strong>Евгений Касперский</strong> — исследователь APT.</div>
+                    <div class="person"><strong>Кевин Митник</strong> — хакер и эксперт по социнженерии.</div>
+                    <div class="person"><strong>Маркус Хатчинс</strong> — остановил WannaCry.</div>
+                </div>
+            </div>
+
+            <!-- СТРАНИЦА 6: КРИПТОГРАФИЯ -->
+            <div id="page-crypto" class="page">
+                <div class="card">
+                    <h1>🔐 Криптография: от Цезаря до постквантового мира</h1>
+                    <p>Наука о математических методах обеспечения конфиденциальности и целостности.</p>
+                </div>
+                <div class="card">
+                    <h2>📜 Эпохи криптографии</h2>
+                    <p><strong>Ручная эпоха:</strong> скитала, Цезарь, Виженер. <strong>Механическая:</strong> Энигма. <strong>Компьютерная:</strong> DES, AES, RSA. <strong>Постквантовая (2025+):</strong> ML-KEM, ML-DSA.</p>
+                </div>
+                <div class="card">
+                    <h2>⚙️ Основные алгоритмы</h2>
+                    <div class="grid-cards">
+                        <div class="info-card"><strong>AES-256</strong> — симметричный стандарт США.</div>
+                        <div class="info-card"><strong>RSA-4096</strong> — асимметричный.</div>
+                        <div class="info-card"><strong>ECC</strong> — эллиптическая криптография.</div>
+                        <div class="info-card"><strong>Post-Quantum</strong> — стойкость к квантовым атакам.</div>
+                    </div>
+                </div>
+                <div class="card conclusion">
+                    <h2>📌 Вывод</h2>
+                    <p>Информационная безопасность прошла путь от скиталы до защиты от квантовых угроз. Каждая атака давала толчок к развитию защиты. Безопасность — это непрерывный процесс, в котором участвуете и вы.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Отдельная страница в начале: при нажатии на кнопку скрываем заставку и показываем основной контент
+        const splashScreen = document.getElementById('splashScreen');
+        const mainContent = document.getElementById('mainContent');
+        const enterBtn = document.getElementById('enterBtn');
+
+        enterBtn.addEventListener('click', () => {
+            splashScreen.style.opacity = '0';
+            setTimeout(() => {
+                splashScreen.style.display = 'none';
+                mainContent.classList.add('visible');
+            }, 500);
+        });
+
+        // Навигация между страницами
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active-page');
+            });
+            document.getElementById('page-' + pageId).classList.add('active-page');
+        }
+
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const page = btn.getAttribute('data-page');
+                showPage(page);
+            });
+        });
+    </script>
+</body>
+</html>
